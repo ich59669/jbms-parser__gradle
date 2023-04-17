@@ -8,6 +8,7 @@
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java-library'
     id 'eclipse'
 }
@@ -32,7 +33,18 @@ dependencies {
 
 }
 
-tasks.named('test') {
+shadowJar {
+    archiveBaseName.set('jbms-parser')
+    archiveClassifier.set('')
+
+    manifest {
+        attributes 'Main-Class': 'bms.model.MainClass'
+        attributes 'Class-Path': '.'
+    }
+
+}
+
+test {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
